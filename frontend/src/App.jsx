@@ -1,18 +1,23 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home';
-import AuthPage from './pages/AuthPage'; // <-- Add this line
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   return (
-    <div className="App">
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/login" element={<AuthPage />} />
-        <Route path="/signup" element={<AuthPage />} />
-      </Routes>
-    </div>
+    <>
+      <ToastContainer />
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
+      </div>
+    </>
   );
 }
 

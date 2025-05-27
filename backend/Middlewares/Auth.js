@@ -1,4 +1,4 @@
-
+const jwt = require('jsonwebtoken');
 
 const ensureAuthenticated = (req, res, next) => {
     const auth = req.headers['authorization'];
@@ -7,6 +7,9 @@ const ensureAuthenticated = (req, res, next) => {
             message: "Unauthorized, jtw token required"
         });
     }
+
+    const token = auth.startsWith('Bearer ') ? auth.slice(7) : auth;
+
     try {
         const decoded = jwt.verify(auth, process.env.JWT_SECRET);
         req.user = decoded;

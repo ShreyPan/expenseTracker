@@ -1,46 +1,89 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { handleSuccess, handleError } from '../utils'
+import { ToastContainer, toast } from 'react-toastify';
 
-function Login({ onToggle }) {
+function Login() {
+    const [loginInfo, setLoginInfo] = React.useState({
+        email: '',
+        password: ''
+    });
+
+    const handleError = (msg) => toast.error(msg);
+    const handleSuccess = (msg) => toast.success(msg);
+
+    const navigate = useNavigate();
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setLoginInfo({ ...loginInfo, [name]: value });
+    };
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        const { email, password } = loginInfo;
+        if (!email || !password) {
+            return handleError('All fields are required');
+        }
+        try {
+            const url = "http://localhost:8080/auth/login";
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(loginInfo)
+            });
+            const result = await response.json();
+            const { success, message, jwtToken, name, error } = result;
+            if (success) {
+                handleSuccess(message);
+                localStorage.setItem('token', jwtToken);
+                localStorage.setItem('loggedInUser', name);
+                setTimeout(() => {
+                    navigate('/home');
+                }, 1000);
+            } else if (error) {
+                const details = error?.details?.[0]?.message;
+                handleError(details || error.message || 'Something went wrong');
+            } else if (!success) {
+                handleError(message);
+            }
+        } catch (err) {
+            handleError(err.message || 'Login failed');
+        }
+    };
+
     return (
-        <div class='container'>
-            <div className="form-box login">
-                <form action="">
-                    <h1>Login</h1>
-                    <div className="input-box">
-                        <input
-                            type="text"
-                            placeholder="Username"
-                            required />
-                        <i class='bx bxs-user'></i>
-                    </div>
-                    <div className="input-box">
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            required />
-                        <i class='bx bxs-lock-alt' ></i>
-                    </div>
-                    <div className="forgot-link">
-                        <a href="#">Forgot Password?</a>
-                    </div>
-                    <button type="submit" class="btn">Login</button>
-                    <p>or login with social platforms</p>
-                    <div className="social-icons">
-                        <a href="#"><i class='bx bxl-google' ></i></a>
-                        <a href="#"><i class='bx bxl-facebook' ></i></a>
-                        <a href="#"><i class='bx bxl-github' ></i></a>
-                        <a href="#"><i class='bx bxl-linkedin' ></i></a>
-                    </div>
-                </form>
-            </div>
-
-            <div className="toggle-box">
-                <div className="toggle-panel toggle-left">
-                    <h1>Hello, Welcome!</h1>
-                    <p>Don't have an account?</p>
-                    <button class="btn register-btn" onClick={onToggle}>Register</button>
+        <div className='container'>
+            <h1>Login</h1>
+            <form onSubmit={handleLogin}>
+                <div>
+                    <label htmlFor="email">Email</label>
+                    <input
+                        id="email"
+                        onChange={handleChange}
+                        type="email"
+                        name="email"
+                        placeholder='Enter your email...'
+                        value={loginInfo.email} />
                 </div>
-            </div>
+                <div>
+                    <label htmlFor="password">Password</label>
+                    <input
+                        id="password"
+                        onChange={handleChange}
+                        type="password"
+                        name="password"
+                        placeholder='Enter your password...'
+                        value={loginInfo.password} />
+                </div>
+                <button type='submit'>Login</button>
+                <span>Don't have an account?
+                    <Link to="/signup">Signup</Link>
+                </span>
+            </form>
+            <ToastContainer />
         </div>
     )
 }
