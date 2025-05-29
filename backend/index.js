@@ -5,6 +5,7 @@ const cors = require('cors');
 const AuthRouter = require('./Routers/AuthRouter');
 const ProductRouter = require('./Routers/ProductRouter');
 const ExpenseRouter = require('./Routers/ExpenseRouter');
+const ensureAuthenticated = require('./Middlewares/Auth');
 
 require('dotenv').config();
 require('./Models/db');
@@ -19,7 +20,7 @@ app.use(cors());
 
 app.use('/auth', AuthRouter);
 app.use('/products', ProductRouter);
-app.use('/expenses', ExpenseRouter);
+app.use('/expenses', ensureAuthenticated, ExpenseRouter);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

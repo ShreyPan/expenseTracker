@@ -16,7 +16,9 @@ function Login() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setLoginInfo({ ...loginInfo, [name]: value });
+        const copyLoginInfo = { ...loginInfo };
+        copyLoginInfo[name] = value;
+        setLoginInfo(copyLoginInfo);
     };
 
     const handleLogin = async (e) => {
