@@ -5,16 +5,16 @@ function ExpenseDetails({ incomeAmt, expenseAmt }) {
         <div>
             <div className="balance-info">
                 <span className='balance-label'>Your Balance is </span>
-                <span className="balance-amount">{incomeAmt - expenseAmt}</span>
+                <span className="balance-amount">₹{incomeAmt - expenseAmt}</span>
             </div>
 
 
             <div className='amount-container'>
                 <span className="amount-label">Income:</span>
-                <span className="income-amount">{incomeAmt}</span>
+                <span className="income-amount">₹{incomeAmt}</span>
 
                 <span className="amount-label">Expense:</span>
-                <span className="expense-amount">{expenseAmt}</span>
+                <span className="expense-amount">₹{expenseAmt}</span>
             </div>
         </div>
     )

@@ -20,17 +20,7 @@ const DarkModeToggle = () => {
     return (
         <button
             onClick={toggleMode}
-            style={{
-                position: 'fixed',
-                top: '20px',
-                right: '20px',
-                zIndex: 999,
-                fontSize: '24px',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                color: isDarkMode ? '#f1c40f' : '#2c3e50'
-            }}
+            className="dark-mode-toggle"
             aria-label="Toggle dark mode"
         >
             {isDarkMode ? <FaSun /> : <FaMoon />}

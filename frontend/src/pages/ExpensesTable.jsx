@@ -15,7 +15,7 @@ function ExpensesTable({ expenses, handleDeleteExpense }) {
                         <div
                             className={`expense-amount ${expense.amount > 0 ? 'income' : 'expense'}`}
                         >
-                            {expense.amount}
+                            ₹{expense.amount}
                         </div>
                     </div>
                 ))
