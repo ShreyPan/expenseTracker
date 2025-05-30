@@ -4,6 +4,7 @@ const UserModel = require("../Models/User");
 const addExpenses = async (req, res) => {
     const body = req.body;
     const { _id } = req.user;
+    console.log('req.user._id:', req.user._id);
     try {
         const userData = await UserModel.findByIdAndUpdate(
             _id,
@@ -14,6 +15,7 @@ const addExpenses = async (req, res) => {
             },
             { new: true }
         );
+        console.log('userData:', userData);
         return res.status(200).json({
             message: "Expense Added Successfully",
             data: userData?.expenses,
@@ -31,8 +33,10 @@ const addExpenses = async (req, res) => {
 const fetchExpenses = async (req, res) => {
     const body = req.body;
     const { _id } = req.user;
+    console.log('req.user._id:', req.user._id);
     try {
         const userData = await UserModel.findById(_id).select('expenses');
+        console.log('userData:', userData);
         return res.status(200).json({
             message: "Fetched Expenses Successfully",
             data: userData?.expenses,
@@ -50,6 +54,7 @@ const fetchExpenses = async (req, res) => {
 const deleteExpense = async (req, res) => {
     const { _id } = req.user;
     const { expenseId } = req.params;
+    console.log('req.user._id:', req.user._id);
     try {
         const userData = await UserModel.findByIdAndUpdate(
             _id,

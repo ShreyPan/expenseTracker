@@ -1,15 +1,15 @@
 const { fetchExpenses, addExpenses, deleteExpense } = require('../Controllers/ExpenseController');
-
+const ensureAuthenticated = require('../Middlewares/Auth');
 const router = require('express').Router();
 
 //fetch expenses
-router.get('/', fetchExpenses);
+router.get('/', ensureAuthenticated, fetchExpenses);
 
 //add expenses
-router.post('/', addExpenses);
+router.post('/', ensureAuthenticated, addExpenses);
 
 //delete expenses
-router.delete('/:expenseId', deleteExpense);
+router.delete('/:expenseId', ensureAuthenticated, deleteExpense);
 
 
 module.exports = router;

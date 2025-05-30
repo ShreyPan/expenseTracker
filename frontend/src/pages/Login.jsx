@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { handleSuccess, handleError } from '../utils'
 import { ToastContainer, toast } from 'react-toastify';
+import DarkModeToggle from '../components/DarkModeToggle';
 
 function Login() {
     const [loginInfo, setLoginInfo] = React.useState({
@@ -57,36 +58,39 @@ function Login() {
     };
 
     return (
-        <div className='container'>
-            <h1>Login</h1>
-            <form onSubmit={handleLogin}>
-                <div>
-                    <label htmlFor="email">Email</label>
-                    <input
-                        id="email"
-                        onChange={handleChange}
-                        type="email"
-                        name="email"
-                        placeholder='Enter your email...'
-                        value={loginInfo.email} />
-                </div>
-                <div>
-                    <label htmlFor="password">Password</label>
-                    <input
-                        id="password"
-                        onChange={handleChange}
-                        type="password"
-                        name="password"
-                        placeholder='Enter your password...'
-                        value={loginInfo.password} />
-                </div>
-                <button type='submit'>Login</button>
-                <span>Don't have an account?
-                    <Link to="/signup">Signup</Link>
-                </span>
-            </form>
-            <ToastContainer />
-        </div>
+        <>
+            <DarkModeToggle />
+            <div className='container'>
+                <h1>Login</h1>
+                <form onSubmit={handleLogin}>
+                    <div>
+                        <label htmlFor="email">Email</label>
+                        <input
+                            id="email"
+                            onChange={handleChange}
+                            type="email"
+                            name="email"
+                            placeholder='Enter your email...'
+                            value={loginInfo.email} />
+                    </div>
+                    <div>
+                        <label htmlFor="password">Password</label>
+                        <input
+                            id="password"
+                            onChange={handleChange}
+                            type="password"
+                            name="password"
+                            placeholder='Enter your password...'
+                            value={loginInfo.password} />
+                    </div>
+                    <button type='submit'>Login</button>
+                    <span>Don't have an account?
+                        <Link to="/signup">Signup</Link>
+                    </span>
+                </form>
+                <ToastContainer />
+            </div>
+        </>
     )
 }
 
